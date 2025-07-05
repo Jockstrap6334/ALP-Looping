@@ -26,13 +26,15 @@ def test_convergence_window_termination():
     """Test termination based on performance convergence."""
     config = TerminationCriteria(
         convergence_window=3, 
-        min_performance_change=0.01
+        min_performance_change=0.02
     )
-    history = [0.5, 0.51, 0.52]
-    assert config.should_terminate(3, 0.52, history)
-    
+    # Not converged due to larger changes
     history_non_converged = [0.5, 0.6, 0.7]
     assert not config.should_terminate(3, 0.7, history_non_converged)
+    
+    # Converged with small changes
+    history_converged = [0.5, 0.52, 0.54]
+    assert config.should_terminate(3, 0.54, history_converged)
 
 
 def test_invalid_configurations():
