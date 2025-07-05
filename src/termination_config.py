@@ -75,8 +75,8 @@ class TerminationCriteria:
             len(performance_history) >= self.convergence_window):
             recent_performances = performance_history[-self.convergence_window:]
             converged = all(
-                abs(recent_performances[i] - recent_performances[i+1]) < (self.min_performance_change or 0)
-                for i in range(len(recent_performances)-1)
+                abs(p1 - p2) < (self.min_performance_change or 0)
+                for p1, p2 in zip(recent_performances, recent_performances[1:])
             )
             return converged
 
